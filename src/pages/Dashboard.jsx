@@ -23,7 +23,17 @@ const Dashboard = () => {
   const { dateRange, darkMode } = useApp();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showSpinner, setShowSpinner] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => setShowSpinner(true), 100);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSpinner(false);
+    }
+  }, [loading]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -49,15 +59,19 @@ const Dashboard = () => {
   }, [dateRange]);
 
   if (loading) {
-    return (
-      <div className="flex h-[70vh] items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-600"></div>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Loading manufacturing telemetry...</p>
+    if (showSpinner) {
+      return (
+        <div className="flex h-[70vh] items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-600"></div>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Loading manufacturing telemetry...</p>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
+
 
   if (error) {
     return (

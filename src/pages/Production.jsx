@@ -271,11 +271,12 @@ const Production = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 dark:divide-slate-800/60 text-xs">
-              {loading ? (
+              {loading && productionData.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="py-10 text-center text-slate-400">Loading production database...</td>
                 </tr>
               ) : productionData.length === 0 ? (
+
                 <tr>
                   <td colSpan="7" className="py-10 text-center text-slate-400">No production logs found matching the filter options.</td>
                 </tr>

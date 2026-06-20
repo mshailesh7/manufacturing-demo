@@ -271,11 +271,12 @@ const Purchases = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-xs">
-              {loading ? (
+              {loading && purchases.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="py-10 text-center text-slate-400">Loading purchase ledger...</td>
                 </tr>
               ) : purchases.length === 0 ? (
+
                 <tr>
                   <td colSpan="8" className="py-10 text-center text-slate-400">No purchase records found matching filters.</td>
                 </tr>

@@ -19,7 +19,17 @@ const Reports = () => {
   const [reportDate, setReportDate] = useState(new Date().toISOString().split('T')[0]);
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showSpinner, setShowSpinner] = useState(false);
   const [toasts, setToasts] = useState([]);
+
+  useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => setShowSpinner(true), 100);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSpinner(false);
+    }
+  }, [loading]);
 
   const addToast = (message, type = 'success') => {
     const id = Date.now();
@@ -110,12 +120,16 @@ const Reports = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex h-[70vh] items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-600"></div>
-      </div>
-    );
+    if (showSpinner) {
+      return (
+        <div className="flex h-[70vh] items-center justify-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-600"></div>
+        </div>
+      );
+    }
+    return null;
   }
+
 
   return (
     <div className="space-y-6">
